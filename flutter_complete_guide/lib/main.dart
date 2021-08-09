@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/answer.dart';
-import 'question.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
+
 // void main() {
 //   runApp(MyApp());
 // }
@@ -48,8 +49,9 @@ class MyHomePageState extends State<MyHomePage> {
 
   void updateQuestionIndex() {
     setState(() {
-      _questionIndex =
-          _questionIndex >= (_questions.length - 1) ? 0 : _questionIndex + 1;
+      //_questionIndex =
+      //_questionIndex >= (_questions.length - 1) ? 0 : _questionIndex + 1;
+      _questionIndex++;
     });
   }
 
@@ -59,15 +61,12 @@ class MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text("My First App"),
       ),
-      body: Column(
-        children: [
-          Question(_questions[_questionIndex]['questionText'] as String),
-          ...(_questions[_questionIndex]['answer'] as List<String>)
-              .map((answer) {
-            return Answer(answer, updateQuestionIndex);
-          }).toList()
-        ],
-      ),
+      body: _questionIndex < _questions.length
+          ? Quiz(
+              questions: this._questions,
+              questionIndex: this._questionIndex,
+              answerQuestion: updateQuestionIndex)
+          : Result(),
     );
   }
 }
