@@ -7,7 +7,9 @@ import 'package:personal_expenses_app/widgets/adaptive_button.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx);
+  NewTransaction(this.addTx) {
+    print("Constructor NewTransacrtion Widget");
+  }
 
   @override
   _NewTransactionState createState() => _NewTransactionState();
@@ -17,6 +19,24 @@ class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    print("initState");
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant NewTransaction oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   void _submitData() {
     if (_amountController.text.isEmpty) {
@@ -96,14 +116,16 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
                       ),
                     ),
-                     AdaptiveButton("Choose Date",_presentDatePicker),
+                    AdaptiveButton("Choose Date", _presentDatePicker),
                   ],
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text('Add Transaction'),
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button!.color,
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(
+                      color: Theme.of(context).textTheme.button!.color),
+                ),
                 onPressed: _submitData,
               ),
             ],
