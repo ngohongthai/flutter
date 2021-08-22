@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/providers/auth.dart';
 
 class CartItem {
   final String id;
@@ -15,6 +16,10 @@ class CartItem {
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _item = {};
+  final Auth auth;
+
+  Cart(this.auth, this._item);
+
   Map<String, CartItem> get item {
     return {..._item};
   }

@@ -42,15 +42,17 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String? authToken, String? userId) async {
+    if (authToken == null || userId == null) {
+      return;
+    }
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final uri = Uri.https('flutter-shop-app-77ea0-default-rtdb.firebaseio.com',
-        '/products/$id.json');
+        '/userFavorites/$userId/$id.json', {'auth': authToken});
     try {
-      final response =
-          await http.patch(uri, body: json.encode({'isFavorite': isFavorite}));
+      final response = await http.put(uri, body: json.encode(isFavorite));
       if (response.statusCode >= 400) {
         _setFavoriteValue(oldStatus);
       }
@@ -61,24 +63,22 @@ class Product with ChangeNotifier {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'title': title,
       'description': description,
       'price': price,
       'imageUrl': imageUrl,
-      'isFavorite': isFavorite,
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> map, String productId) {
+  factory Product.fromMap(
+      Map<String, dynamic> map, String productId, bool isFavorite) {
     return Product(
-      id: productId,
-      title: map['title'],
-      description: map['description'],
-      price: map['price'],
-      imageUrl: map['imageUrl'],
-      isFavorite: map['isFavorite'],
-    );
+        id: productId,
+        title: map['title'],
+        description: map['description'],
+        price: map['price'],
+        imageUrl: map['imageUrl'],
+        isFavorite: isFavorite);
   }
 
   String toJson() => json.encode(toMap());

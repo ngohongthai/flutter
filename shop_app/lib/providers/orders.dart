@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,14 +19,21 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
+  final Auth auth;
+
+  Orders(this.auth, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
-    final uri = Uri.https(
-        'flutter-shop-app-77ea0-default-rtdb.firebaseio.com', '/orders.json');
+    final authenToken = auth.token;
+    if (authenToken == null) {
+      return;
+    }
+    final uri = Uri.https('flutter-shop-app-77ea0-default-rtdb.firebaseio.com',
+        '/orders.json', {'auth': authenToken});
     final response = await http.get(uri);
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -54,8 +62,12 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    final uri = Uri.https(
-        'flutter-shop-app-77ea0-default-rtdb.firebaseio.com', '/orders.json');
+    final authenToken = auth.token;
+    if (authenToken == null) {
+      return;
+    }
+    final uri = Uri.https('flutter-shop-app-77ea0-default-rtdb.firebaseio.com',
+        '/orders.json', {'auth': authenToken});
     final timestamp = DateTime.now();
     final response = await http.post(
       uri,
