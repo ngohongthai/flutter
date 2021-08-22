@@ -52,9 +52,9 @@ class Product with ChangeNotifier {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> map) {
+  factory Product.fromMap(Map<String, dynamic> map, String productId) {
     return Product(
-      id: map['id'],
+      id: productId,
       title: map['title'],
       description: map['description'],
       price: map['price'],
@@ -64,9 +64,6 @@ class Product with ChangeNotifier {
   }
 
   String toJson() => json.encode(toMap());
-
-  factory Product.fromJson(String source) =>
-      Product.fromMap(json.decode(source));
 
   @override
   String toString() {
