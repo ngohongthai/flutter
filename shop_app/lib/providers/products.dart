@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:shop_app/providers/product.dart';
+import 'package:http/http.dart' as http;
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -64,10 +67,19 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == productId);
   }
 
-  void addProduct(Product product) {
-    final newProduct = product.copyWith(id: DateTime.now().toString());
-    _items.add(newProduct);
-    notifyListeners();
+  Future<void> addProduct(Product product) async {
+    //const url = 'https://flutter-shop-app-77ea0-default-rtdb.firebaseio.com/products.json';
+    final uri = Uri.https(
+        'flutter-shop-app-77ea0-default-rtdb.firebaseio.com', '/products.json');
+    try {
+      final response = await http.post(uri, body: product.toJson());
+      final newProduct =
+          product.copyWith(id: json.decode(response.body)['name']);
+      _items.add(newProduct);
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 
   void updateProduct(String id, Product newProduct) {
