@@ -20,14 +20,18 @@ class Products with ChangeNotifier {
     return _items.where((element) => element.isFavorite).toList();
   }
 
-  Future<void> fetchAndSetProduct() async {
+  Future<void> fetchAndSetProduct([bool filterByUser = true]) async {
     final authenToken = auth.token;
     final userId = auth.userId;
     if (authenToken == null || userId == null) {
       return;
     }
-    final uri = Uri.https('flutter-shop-app-77ea0-default-rtdb.firebaseio.com',
-        '/products.json', {'auth': authenToken});
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url =
+        'https://flutter-shop-app-77ea0-default-rtdb.firebaseio.com/products.json?auth=$authenToken&$filterString';
+
+    final uri = Uri.parse(url);
     try {
       final response = await http.get(uri);
       print(jsonDecode(response.body));
@@ -59,13 +63,14 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final authenToken = auth.token;
-    if (authenToken == null) {
+    final userId = auth.userId;
+    if (authenToken == null || userId == null) {
       return;
     }
     final uri = Uri.https('flutter-shop-app-77ea0-default-rtdb.firebaseio.com',
         '/products.json', {'auth': authenToken});
     try {
-      final response = await http.post(uri, body: product.toJson());
+      final response = await http.post(uri, body: product.toJson(userId));
       final newProduct =
           product.copyWith(id: json.decode(response.body)['name']);
       _items.add(newProduct);
@@ -77,7 +82,8 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(String id, Product newProduct) async {
     final authenToken = auth.token;
-    if (authenToken == null) {
+    final userId = auth.userId;
+    if (authenToken == null || userId == null) {
       return;
     }
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
@@ -87,7 +93,7 @@ class Products with ChangeNotifier {
           '/products/$id.json',
           {'auth': authenToken});
       try {
-        await http.patch(uri, body: newProduct.toJson());
+        await http.patch(uri, body: newProduct.toJson(userId));
         _items[prodIndex] = newProduct;
         notifyListeners();
       } catch (e) {

@@ -61,12 +61,13 @@ class Product with ChangeNotifier {
     }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(String userId) {
     return {
       'title': title,
       'description': description,
       'price': price,
       'imageUrl': imageUrl,
+      'creatorId': userId
     };
   }
 
@@ -81,7 +82,7 @@ class Product with ChangeNotifier {
         isFavorite: isFavorite);
   }
 
-  String toJson() => json.encode(toMap());
+  String toJson(String userId) => json.encode(toMap(userId));
 
   @override
   String toString() {
