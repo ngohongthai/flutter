@@ -47,5 +47,9 @@
 	<string>App use Camera</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App use Microphone</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need to get your location!</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need to get your location!</string>
 </dict>
 </plist>

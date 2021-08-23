@@ -23,6 +23,13 @@ class PlaceLocation {
     );
   }
 
+  static PlaceLocation get dummy {
+    return PlaceLocation(
+        latitude: 20.97322277542624,
+        longitude: 105.77710972417162,
+        address: 'Buu dien Ha Dong');
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'latitude': latitude,
@@ -65,7 +72,7 @@ class PlaceLocation {
 class Place {
   final String id;
   final String title;
-  final PlaceLocation location;
+  final PlaceLocation? location;
   final File image;
   Place({
     required this.id,

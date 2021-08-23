@@ -12,7 +12,7 @@ class Auth with ChangeNotifier {
   String? _userId;
   Timer? _authTimer;
 
-  final API_KEY = 'AIzaSyCoZBuBY61THG-12gqGRb99Sa565CaAOpg';
+  final API_KEY = 'YOUR_API_KEY';
 
   bool get isAuth {
     return token != null;
