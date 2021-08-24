@@ -1,16 +1,22 @@
-# personal_expenses_app
+# **Personal expenses app**
 
-A new Flutter project.
+<hr>
 
-## Getting Started
+### Useful Resources & Links
+- [Layout in Flutter](https://flutter.dev/docs/development/ui/layout)
+- [Adding assets and images](https://flutter.dev/docs/development/ui/assets-and-images)
+- [Widget catalog](https://flutter.dev/docs/development/ui/widgets)
+- [Use themes to share colors and font styles](https://flutter.dev/docs/cookbook/design/themes)
+- [Cupertino (iOS style) widgets](https://flutter.dev/docs/development/ui/widgets/cupertino)
+- [LayoutBuilder class](https://api.flutter.dev/flutter/widgets/LayoutBuilder-class.html)
+- [How to make flutter app responsive accounding to different screen size?](https://stackoverflow.com/questions/49704497/how-to-make-flutter-app-responsive-according-to-different-screen-size?rq=1)
+- [MediaQuery class](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
+- [When to use Keys](https://www.youtube.com/watch?v=kn0EOS-ZiIc)
+- [How to Create Stateless Widgets](https://www.youtube.com/watch?v=wE7khGHVkYY)
+- [How Stateful Widgets Are Used Best](https://www.youtube.com/watch?v=AqCMFXEmf3w)
+- [Inherited Widgets Explained ](https://www.youtube.com/watch?v=Zbm3hjPjQMk)
+- [Flutter app lifecycle](https://medium.com/pharos-production/flutter-app-lifecycle-4b0ab4a4211a)
 
-This project is a starting point for a Flutter application.
+<hr>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](/screenshots/personal_expenses_screenshot.png)
