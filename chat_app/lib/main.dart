@@ -1,6 +1,5 @@
 import 'package:chat_app/helpers/custom_route.dart';
 import 'package:chat_app/screens/auth_screen.dart';
-import 'package:chat_app/screens/chat_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
