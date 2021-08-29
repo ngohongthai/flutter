@@ -1,118 +1,70 @@
-import 'package:chat_app/app/chat/chat_screen.dart';
-import 'package:chat_app/app/onboarding/onboarding_screen.dart';
-import 'package:chat_app/app/onboarding/onboarding_view_model.dart';
-import 'package:chat_app/routing/app_router.dart';
-import 'package:chat_app/routing/custom_route.dart';
-import 'package:chat_app/services/shared_preference_services.dart';
-import 'package:chat_app/services/top_level_provider.dart';
-import 'package:chat_app/widgets/auth/auth_widget.dart';
+import 'package:chat_app/config/constant.dart';
+import 'package:chat_app/cubit/language/cubit/language_cubit.dart';
+import 'package:chat_app/features/multi_language/app_localizations.dart';
+import 'package:chat_app/features/multi_language/initial_language.dart';
+import 'package:chat_app/ui/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'app/authentication/auth_screen.dart';
-
-Future<void> main() async {
+main() {
+  LicenseRegistry.addLicense(() async* {
+    final googleFontLicense =
+        await rootBundle.loadString('assets/google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(
+        ['assets/google_fonts'], googleFontLicense);
+  });
+  // this function makes application always run in portrait mode
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    _initializeFirebase();
+    runApp(MyApp());
+  });
+}
+
+void _initializeFirebase() async {
   await Firebase.initializeApp();
-  final sharedPreferences = await SharedPreferences.getInstance();
-  runApp(ProviderScope(
-    child: MyApp(),
-    overrides: [
-      sharedPreferencesServiceProvider
-          .overrideWithValue(SharedPreferencesService(sharedPreferences))
-    ],
-  ));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firebaseAuth = context.read(firebaseAuthProvider);
-    return MaterialApp(
-      theme: ThemeData(
-          primarySwatch: Colors.pink,
-          backgroundColor: Colors.pink,
-          accentColor: Colors.deepPurple,
-          accentColorBrightness: Brightness.dark,
-          buttonTheme: ButtonTheme.of(context).copyWith(
-              buttonColor: Colors.pink,
-              textTheme: ButtonTextTheme.primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20))),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.pink,
-                  textStyle: TextStyle(color: Colors.white),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)))),
-          pageTransitionsTheme: PageTransitionsTheme(builders: {
-            TargetPlatform.android: CustomPageTransitionBuilder(),
-            TargetPlatform.iOS: CustomPageTransitionBuilder()
-          })),
-      debugShowCheckedModeBanner: false,
-      home: AuthWidget(
-        nonSignedInBuilder: (_) => Consumer(builder: (context, watch, child) {
-          final didCompleteOnboarding = watch(onboardingViewModelProvider);
-          return didCompleteOnboarding ? AuthScreen() : OnboardingView();
-        }),
-        signedInBuilder: (_) => ChatScreen(),
-      ),
-      onGenerateRoute: (settings) =>
-          AppRouter.onGenerateRoute(settings, firebaseAuth),
-    );
-  }
-}
-
-/*
-class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _initialization,
-        builder: (ctx, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Something went wrong!!'),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
+    return MultiBlocProvider(
+        providers: [
+          // this bloc used for feature - change language
+          BlocProvider(create: (context) => LanguageCubit()),
+        ],
+        child: InitialLanguage(child: BlocBuilder<LanguageCubit, LanguageState>(
+          builder: (context, state) {
             return MaterialApp(
-              title: 'Flutter Chat',
+              title: APP_NAME,
+              debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                  primarySwatch: Colors.pink,
-                  backgroundColor: Colors.pink,
-                  accentColor: Colors.deepPurple,
-                  accentColorBrightness: Brightness.dark,
-                  buttonTheme: ButtonTheme.of(context).copyWith(
-                      buttonColor: Colors.pink,
-                      textTheme: ButtonTextTheme.primary,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  elevatedButtonTheme: ElevatedButtonThemeData(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.pink,
-                          textStyle: TextStyle(color: Colors.white),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)))),
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
                   pageTransitionsTheme: PageTransitionsTheme(builders: {
-                    TargetPlatform.android: CustomPageTransitionBuilder(),
-                    TargetPlatform.iOS: CustomPageTransitionBuilder()
+                    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                    TargetPlatform.android: ZoomPageTransitionsBuilder(),
                   })),
-              home: AuthScreen(),
+              // below is used for language feature
+              supportedLocales: [Locale('en', 'US'), Locale('vi', 'VN')],
+              // These delegates make sure that the localization data for the proper language is loaded
+              localizationsDelegates: [
+                AppLocalizationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              // Returns a locale which will be used by the app
+              locale: (state is ChangeLanguageSuccess)
+                  ? state.locale
+                  : Locale('en', 'US'),
+              home: SplashScreen(),
             );
-          }
-
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+          },
+        )));
   }
 }
-*/
