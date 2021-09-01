@@ -6,20 +6,18 @@ part of 'weather.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Weather _$WeatherFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'Weather',
-      json,
-      ($checkedConvert) {
-        final val = Weather(
-          location: $checkedConvert('location', (v) => v as String),
-          temperature:
-              $checkedConvert('temperature', (v) => (v as num).toDouble()),
-          condition: $checkedConvert(
-              'condition', (v) => _$enumDecode(_$WeatherConditionEnumMap, v)),
-        );
-        return val;
-      },
+Weather _$WeatherFromJson(Map<String, dynamic> json) {
+  return $checkedNew('Weather', json, () {
+    final val = Weather(
+      location: $checkedConvert(json, 'location', (v) => v as String),
+      temperature:
+          $checkedConvert(json, 'temperature', (v) => (v as num).toDouble()),
+      condition: $checkedConvert(
+          json, 'condition', (v) => _$enumDecode(_$WeatherConditionEnumMap, v)),
     );
+    return val;
+  });
+}
 
 Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
       'location': instance.location,
