@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather/search/search.dart';
+import 'package:flutter_weather/settings/settings.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/weather.dart';
 import 'package:flutter_weather/weather/widgets/widgets.dart';
@@ -26,9 +28,9 @@ class WeatherView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navigator.of(context).push<void>(SettingsPage.route(
-              //   context.read<WeatherCubit>(),
-              // ));
+              Navigator.of(context).push<void>(SettingsPage.route(
+                context.read<WeatherCubit>(),
+              ));
             },
           ),
         ],
@@ -64,11 +66,10 @@ class WeatherView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search),
         onPressed: () async {
-          // final city = await Navigator.of(context).push(SearchPage.route());
-          // unawaited(context.read<WeatherCubit>().fetchWeather(city));
+          final city = await Navigator.of(context).push(SearchPage.route());
+          unawaited(context.read<WeatherCubit>().fetchWeather(city));
         },
       ),
     );
   }
 }
-
