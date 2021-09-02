@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/flutter_infinite_list/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_infinite_list/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_weather/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_weather/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_timer/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_timer/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_login/packages/authentication_repository/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_login/packages/authentication_repository/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_login/packages/user_repository/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_login/packages/user_repository/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_weather/packages/weather_repository/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_weather/packages/weather_repository/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_counter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_counter/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_weather/packages/meta_weather_api/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_weather/packages/meta_weather_api/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_login/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_login/.pub" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
