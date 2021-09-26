@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "465075221006",
+    "project_id": "fir-rtc-2cd85",
+    "storage_bucket": "fir-rtc-2cd85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465075221006:android:e27de89ed4b60decb1425f",
+        "android_client_info": {
+          "package_name": "com.zstudio.flutter_rtc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465075221006-60jcdkbh8bmqtlhl7q65rlrajlubp099.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbUlkZBUlVqRtXtpRsT60Cjo3NykgGOp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465075221006-60jcdkbh8bmqtlhl7q65rlrajlubp099.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
